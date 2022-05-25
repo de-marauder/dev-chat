@@ -1,0 +1,87 @@
+@import 'variables';
+@import 'utils';
+
+.sidebar {
+    @include flex-center;
+    width: 90%;
+    height: 100vh;
+    background: rgba($sec-color, 0.8);
+    backdrop-filter: blur(3px);
+    color: white;
+    position: fixed;
+    right: 0;
+    z-index: 10;
+    animation: slide-from-right .5s cubic-bezier(0.2, 0.22, 1, 1.1);
+
+    .nav {
+        @include flex-col;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1000px;
+        height: 80%;
+        margin: 0 auto;
+        cursor: default;
+        width: 100%;
+
+        .logo {
+            font-size: 2rem;
+            border-bottom: 3px solid $sec-text-color-1;
+
+            span {
+                color: $sec-text-color-1;
+                font-weight: bold;
+            }
+        }
+
+        .nav_list {
+            @include flex-col;
+            justify-content: space-around;
+            align-items: center;
+            height: 50%;
+            font-size: 2rem;
+            background: rgba($sec-color, 0.8);
+            padding: 1rem;
+            border-radius: 2rem;
+            width: 100%;
+            height: 60%;
+
+            hr {
+                border: $sec-text-color-2 solid 2px;
+                width: 70%;
+
+            }
+
+            @include phone-only {
+                .nav_item {
+                    @include list-style;
+                    margin-left: 2rem;
+
+                    &:hover {
+                        color: $sec-text-color-2;
+                    }
+                }
+            }
+        }
+
+        .auth {
+            @include flex-row;
+
+
+            @include phone-only {
+                li {
+                    @include list-style;
+                    margin-left: 1rem;
+                }
+            }
+        }
+    }
+}
+
+@keyframes slide-from-right {
+    0% {
+        transform: translate(100%);
+    }
+    100% {
+        transform: translate(0);
+    }
+}

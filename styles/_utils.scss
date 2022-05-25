@@ -1,0 +1,51 @@
+.btn {
+    padding: 0.5rem 1rem;
+    width: max-content;
+
+    &.pri_btn {
+        background-color: $pri-color;
+        border-radius: 0.5rem;
+        color: white;
+        &:hover {
+            background: $sec-text-color-2;
+            color: white;
+        }
+    }
+    &.sec_btn {
+        border-radius: 0.5rem;
+        border: 2px solid $sec-text-color-1;
+        color: $sec-text-color-1;
+        background: white;
+
+        &:hover {
+            background: $sec-text-color-1;
+            color: white;
+        }
+    }
+}
+
+
+@mixin list-style {
+    list-style: none;
+}
+@mixin flex-row {
+    display: flex;
+}
+@mixin flex-col {
+    display: flex;
+    flex-direction: column;
+}
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@mixin transition-ease {
+    transition: .5s cubic-bezier(0.2, 0.22, 0.52, 1.86);
+}
+@mixin phone-only {
+    @media (max-width: 600px) {
+        @content;
+    }
+}
+

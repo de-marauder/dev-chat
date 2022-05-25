@@ -1,0 +1,8 @@
+$pri-hue: 300;
+$sec-hue: 301;
+
+$pri-color: hsl($pri-hue, 50%, 50%);
+$sec-color: hsl($sec-hue, 50%, 20%);
+$pri-text-color: hsl($pri-hue, 100%, 10%);
+$sec-text-color-1: hsl($sec-hue, 100%, 50%);
+$sec-text-color-2: hsl($sec-hue, 80%, 70%);

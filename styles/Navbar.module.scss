@@ -1,0 +1,61 @@
+@import 'variables';
+@import 'utils';
+
+.header {
+    width: 100vw;
+    box-shadow: 1rem 0 1rem #aaa;
+    background-color: white;
+    position: fixed;
+    padding: 1rem;
+    z-index: 10;
+
+    .nav {
+        @include flex-row;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1000px;
+        margin: 0 auto;
+        cursor: default;
+        width: 100%;
+
+        .logo {
+            font-size: 2rem;
+            border-bottom: 3px solid $sec-text-color-1;
+
+            span {
+                color: $sec-text-color-1;
+                font-weight: bold;
+            }
+        }
+
+        .nav_list {
+            @include flex-row;
+
+            .nav_item {
+                @include list-style;
+                margin-left: 2rem;
+
+                &:hover {
+                    color: $sec-text-color-2;
+                }
+            }
+
+            @include phone-only {
+                display: none;
+            }
+        }
+
+        .auth {
+            @include flex-row;
+
+            li {
+                @include list-style;
+                margin-left: 1rem;
+            }
+
+            @include phone-only {
+                display: none;
+            }
+        }
+    }
+}
