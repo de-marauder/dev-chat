@@ -48,6 +48,10 @@
         .auth {
             @include flex-row;
 
+            .sec_btn {
+                color: $sec-text-color-1;
+            }
+
             li {
                 @include list-style;
                 margin-left: 1rem;
