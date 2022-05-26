@@ -1,12 +1,15 @@
 import Hero from "./Hero";
+import About from "./About";
+// import Services from "./Services";
 
-import classes from "../../styles/Landing/index.module.scss"
 
 function Landing() {
   return (
-    <div className={classes.Landing}>
+    <>
       <Hero />
-    </div>
+      <About />
+      {/* <Services /> */}
+    </>
   );
 }
 

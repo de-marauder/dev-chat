@@ -1,0 +1,41 @@
+@import '../variables';
+@import '../utils';
+
+.about {
+    min-height: 100vh;
+    padding-top: 2em;
+    
+    h1 {
+        font-size: 3em;
+        text-align: center;
+        margin-bottom: 1rem;
+        span{ 
+            color: $sec-text-color-1
+        }
+    }
+   > div {
+       height: 100%;
+       @include big-screens {
+           @include flex-center;
+           justify-content: space-around;
+        }
+
+        .Image {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .Text {
+            font-size: 1.5em;
+            padding-left: 1rem;
+
+            ul {
+                margin-left: 1rem;
+            }
+
+            li {
+                margin: 1rem;
+            }
+        }
+    }
+}

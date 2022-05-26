@@ -15,15 +15,24 @@
         border-radius: 0.5rem;
         border: 2px solid $sec-text-color-1;
         color: $sec-text-color-1;
-        background: white;
+        background: inherit;
+        color: white;
 
         &:hover {
             background: $sec-text-color-1;
-            color: white;
+            // color: white;
         }
     }
 }
 
+.input {
+    padding: 1rem 2rem;
+    width: 100%;
+    margin: 0 0 2rem;
+    border-radius: 10px;
+    outline: none;
+    background: rgba($sec-color, 0.5);
+}
 
 @mixin list-style {
     list-style: none;
@@ -48,4 +57,11 @@
         @content;
     }
 }
-
+@mixin big-screens {
+    @media (min-width: 700px) {
+        @content;
+    }
+}
+@mixin t-right {
+    float: right
+}
