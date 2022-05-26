@@ -16,7 +16,7 @@ function Signup() {
         </span>
       </p>
     ) : (
-        <p>
+      <p>
         Already have an account?
         <span>
           <Link href="/auth/login">log in</Link>
@@ -36,6 +36,7 @@ function Signup() {
               name="username"
               placeholder="username"
               id="username"
+              required
             />
             <input
               className={classes.input}
@@ -43,6 +44,7 @@ function Signup() {
               name="password1"
               placeholder="password"
               id="password1"
+              required
             />
             <input
               className={classes.input}
@@ -50,10 +52,12 @@ function Signup() {
               name="password2"
               placeholder="confirm password"
               id="password2"
+              required
             />
           </div>
           <div className={classes.submit_btn_wrapper}>
             <input
+              onClick={(e) => e.preventDefault}
               className={`${classes.btn} ${classes.sec_btn}`}
               type="submit"
               value="SIGNUP"

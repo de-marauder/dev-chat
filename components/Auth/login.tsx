@@ -13,11 +13,11 @@ function Login() {
         <h1>Login</h1>
         <form>
           <div className={classes.input_wrapper}>
-            <input className={classes.input} type="text" name="username" placeholder="username" id="username" />
-            <input className={classes.input} type="password" name="password" placeholder="password" id="password" />
+            <input className={classes.input} required type="text" name="username" placeholder="username" id="username" />
+            <input className={classes.input} required type="password" name="password" placeholder="password" id="password" />
           </div>
           <div className={classes.submit_btn_wrapper}>
-            <input
+            <input onClick={(e)=>e.preventDefault}
               className={`${classes.btn} ${classes.sec_btn}`}
               type="submit"
               value="LOGIN"
