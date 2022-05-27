@@ -1,11 +1,44 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { FormEvent } from "react";
 import classes from "../../styles/Auth/login.module.scss";
 
 function Signup() {
   const router = useRouter();
   const currRoute = router.asPath;
   console.log(router.asPath);
+
+  const formSubmitHandler = (e: FormEvent) => {
+    e.preventDefault();
+    const target = e.target as HTMLFormElement;
+    const username = target[0] as HTMLInputElement;
+    const password1 = target[1] as HTMLInputElement;
+    const password2 = target[2] as HTMLInputElement;
+    console.log(username);
+
+    fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        'content-type': 'application/json;charset=UTF-8',
+        'accept': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username.value,
+        password1: password1.value,
+        password2: password2.value,
+      }),
+    }).then(async (response)=> {
+
+      if (response.ok) {
+        console.log(response)
+        var res = response.json()
+        return res
+      };
+
+    }).then((data)=>{
+      console.log(data)
+    });
+  };
 
   const footer =
     currRoute === "auth/login" ? (
@@ -28,7 +61,7 @@ function Signup() {
     <section className={`${classes.Hero}`}>
       <div className={classes.form_wrapper}>
         <h1>Sign up</h1>
-        <form>
+        <form onSubmit={(e)=>formSubmitHandler(e)}>
           <div className={classes.input_wrapper}>
             <input
               className={classes.input}

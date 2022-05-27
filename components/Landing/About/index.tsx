@@ -1,6 +1,10 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
 import classes from "../../../styles/Landing/About.module.scss";
 
 function About() {
+  const router = useRouter();
+
   return (
     <section className={classes.about}>
       <h1>
@@ -18,12 +22,11 @@ function About() {
             Achieve Ultimate <span>Zen</span>
           </h2>
           <ul>
-
-          <li>Focus</li>
-          <li>
-            Socialize <span>&amp;</span>
-          </li>
-          <li>Work more efficiently</li>
+            <li>Focus</li>
+            <li>
+              Socialize <span>&amp;</span>
+            </li>
+            <li>Work more efficiently</li>
           </ul>
         </div>
       </div>
@@ -43,6 +46,11 @@ function About() {
             alt="dev at work svg"
           />
         </div>
+      </div>
+      <div className={`${classes.btn} ${classes.pri_btn} ${classes.start_btn}`}>
+        <Link href="/auth/login" >
+          Get Started
+        </Link>
       </div>
     </section>
   );
