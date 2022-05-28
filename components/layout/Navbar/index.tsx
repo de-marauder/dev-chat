@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import classes from "../../../styles/Navbar.module.scss";
 
@@ -9,6 +10,8 @@ type Props = {
 
 function Navbar(props: Props) {
 
+  const router =useRouter()
+
   const navbar = (
     <header className={classes.header}>
       <nav className={classes.nav}>
@@ -18,9 +21,9 @@ function Navbar(props: Props) {
         </div>
       </Link>
         <ul className={classes.nav_list}>
-          <li className={classes.nav_item}><Link href='/'>Home</Link></li>
-          <li className={classes.nav_item}><Link href='/contacts'>Contacts</Link></li>
-          <li className={classes.nav_item}><Link href='/community'>Community</Link></li>
+          <li className={`${classes.nav_item} ${router.route === '/' ? classes.active : ''}`}><Link href='/'>Home</Link></li>
+          <li className={`${classes.nav_item} ${router.route === '/contacts' ? classes.active : ''}`}><Link href='/contacts'>Contacts</Link></li>
+          <li className={`${classes.nav_item} ${router.route === '/community' ? classes.active : ''}`}><Link href='/community'>Community</Link></li>
         </ul>
 
         <ul className={classes.auth}>

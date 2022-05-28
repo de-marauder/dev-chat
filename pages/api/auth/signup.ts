@@ -4,10 +4,12 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import { Console } from "console";
 
-mongoose.connect(
-  "mongodb+srv://de-marauder:qhv9qaHFbsF1Bkjp@dev-chat.bhbn6.mongodb.net/?retryWrites=true&w=majority"
-);
-console.log("mongoose connected to database");
+if (process.env.MONGO_URL) {
+  mongoose.connect(process.env.MONGO_URL);
+  console.log("mongoose connected to database");
+} else {
+  console.error({ message: "Could not read environment variable [MONGO_URL]" });
+}
 
 const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
@@ -36,7 +38,7 @@ export default async function handler(
       // Hash password and send to database
       const hash = await bcrypt.hash(req.body.password1, 10);
       console.log(`hASH CREATED!!! -<${hash}>-`);
-      
+
       const data = {
         username: req.body.username,
         password: hash,
@@ -45,14 +47,20 @@ export default async function handler(
       const usersCollection = db.collection("users");
       let users: Object[];
       try {
-        users = await usersCollection.find({username: data.username}).toArray();
+        users = await usersCollection
+          .find({ username: data.username })
+          .toArray();
         console.log(`users ${users} obtained!`);
         if (users.length === 0) {
           await usersCollection.insertOne(data);
 
           res.status(200).json({ message: "success" });
         } else {
-          res.status(200).json({ message: `User with username ${data.username} already exists` });
+          res
+            .status(200)
+            .json({
+              message: `User with username ${data.username} already exists`,
+            });
         }
       } catch (error: any) {
         console.error(error.stack);

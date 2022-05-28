@@ -40,6 +40,10 @@
                 }
             }
 
+            .active {
+                color: $sec-text-color-2;
+            }
+
             @include phone-only {
                 display: none;
             }
