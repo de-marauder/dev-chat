@@ -1,0 +1,22 @@
+@import '../variables';
+@import '../utils';
+
+.makePost {
+    border-top: 2px $sec-text-color-1 solid;
+    padding-top: 1rem;
+    margin: 1rem;
+
+    .btn {
+        width: fit-content;
+        cursor: default;
+    }
+
+    .editor_wrapper {
+        margin: 1rem auto;
+    }
+
+    .sendPost.btn {
+        @include t-right;
+        margin: 1rem 0;
+    }
+}

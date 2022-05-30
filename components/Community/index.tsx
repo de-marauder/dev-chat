@@ -1,14 +1,21 @@
 import Posts from './Posts'
 
 import classes from '../../styles/Community/index.module.scss'
+import CommunityLayout from './CommunityLayout'
 
-function Community() {
+type Props = {
+    posts: []
+}
+
+function Community(props: Props) {
     return (
-    <div className={classes.community}>
+    <>
         <h1 className={classes.community_header}>Community feed</h1>
-        <Posts />
-    </div>
+        <Posts {...props}/>
+    </>
     )
 }
+
+Community.Layout = CommunityLayout
 
 export default Community;

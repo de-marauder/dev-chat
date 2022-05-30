@@ -9,7 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^34.1.0",
+    "@ckeditor/ckeditor5-react": "^5.0.2",
     "@types/bcrypt": "^5.0.0",
+    "@types/ckeditor__ckeditor5-core": "^33.0.3",
     "bcrypt": "^5.0.1",
     "mongoose": "^6.3.4",
     "next": "12.1.6",

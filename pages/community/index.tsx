@@ -3,7 +3,10 @@ import Head from "next/head";
 
 import Community from "../../components/Community";
 
-const CommunityPage: NextPage = () => {
+type NextPageWithSlug<P = { posts: [] }, IP = P> = NextPage<P, IP>;
+
+const CommunityPage: NextPageWithSlug = (props) => {
+  const CommunityLayout = Community.Layout;
   return (
     <>
       <Head>
@@ -14,30 +17,23 @@ const CommunityPage: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Community />
+      <CommunityLayout>
+        <Community {...props} />
+      </CommunityLayout>
     </>
   );
 };
 
 export default CommunityPage;
 
-export async function getStaticPaths() {
-  // fetch posts and fix slug as param
-
-  return {
-    path: [
-      {
-        params: "",
-      },
-    ],
-    fallback: false,
-  };
-}
-
 export async function getStaticProps() {
   // fetch posts and fix as prop
-  
+  const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+  const posts = await response.json();
+
   return {
-    props: {},
+    props: {
+      posts: posts.slice(0, 10),
+    },
   };
 }

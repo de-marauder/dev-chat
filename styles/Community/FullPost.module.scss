@@ -1,0 +1,40 @@
+@import '../variables';
+@import '../utils';
+
+.fullpost {
+
+    .post {
+        // background-color: rgba($sec-text-color-2, 0.5);
+        width: 100%;
+        padding: 1rem;
+        cursor: default;
+
+
+        .title {
+            margin: 1rem 0;
+        }
+
+        .desc {
+            opacity: 0.6
+        }
+
+        .posted {
+            @include flex-row;
+            justify-content: space-between;
+            margin: 1rem 0;
+            opacity: 0.5;
+            font-size: 0.8rem;
+
+            .author {
+
+                span {
+                    color: $sec-text-color-1;
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+
+    
+
+}

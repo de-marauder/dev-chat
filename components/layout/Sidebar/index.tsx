@@ -57,11 +57,11 @@ function Sidebar(props: Props) {
           </li>
           <hr />
           <li id="contacts" className={`${classes.nav_item} ${router.route === '/contacts' ? classes.active : ''}`}>
-            <Link href="#">Contacts</Link>
+            <Link href="/contacts">Contacts</Link>
           </li>
           <hr />
           <li id="community" className={`${classes.nav_item} ${router.route === '/community' ? classes.active : ''}`}>
-            <Link href="#">Community</Link>
+            <Link href="/community">Community</Link>
           </li>
         </ul>
 

@@ -48,9 +48,7 @@ function About() {
         </div>
       </div>
       <div className={`${classes.btn} ${classes.pri_btn} ${classes.start_btn}`}>
-        <Link href="/auth/login" >
-          Get Started
-        </Link>
+        <Link href="/auth/login">Get Started</Link>
       </div>
     </section>
   );

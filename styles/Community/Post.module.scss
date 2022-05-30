@@ -2,11 +2,12 @@
 @import '../utils';
 
 .post {
-    width: 90%;
+    width: 100%;
     margin: 1rem 0;
     padding: 1rem;
     border-radius: 10px;
     background-color: rgba($sec-text-color-2, 0.5);
+    cursor: default;
     
     &:hover {
         box-shadow: 0 0 1rem rgba($pri-color, 0.4);
@@ -25,6 +26,7 @@
         justify-content: space-between;
         margin: 1rem 0;
         opacity: 0.5;
+        font-size: 0.8rem;
 
         .author {
 
