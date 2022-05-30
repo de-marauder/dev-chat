@@ -2,11 +2,12 @@ import type { NextPage } from "next";
 import Head from "next/head";
 
 import Community from "../../components/Community";
+import CommunityLayout from "../../components/Community/CommunityLayout";
 
 type NextPageWithSlug<P = { posts: [] }, IP = P> = NextPage<P, IP>;
 
 const CommunityPage: NextPageWithSlug = (props) => {
-  const CommunityLayout = Community.Layout;
+
   return (
     <>
       <Head>

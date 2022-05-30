@@ -43,6 +43,7 @@ export default function FullPost(props: Props) {
       </section>
       <section className={classes.make_comment}>
         <MakePost
+        isNew={false}
         name="description"
         onChange={(data: string) => {
           setData(data);

@@ -7,14 +7,23 @@ type Params = {
   sendPost: Function;
   value: string;
   name: string;
+  isNew: Boolean;
 };
 
 // !* Adding a button to toggle the editor fixed the disappearing after page load issue.
-function MakePost({ onChange, name, value, sendPost }: Params) {
+function MakePost({ isNew, onChange, name, value, sendPost }: Params) {
   const editorRef = useRef<any>();
   const { CKEditor, ClassicEditor }: any = editorRef.current || {};
 
   const [editor, toggleEditor] = useState(false);
+
+  const [title, setTitle] = useState('')
+  const titleInput = (
+    <div className={classes.titleInput}>
+      <label>Post title</label>
+      <input className={classes.input} required value={title} onChange={(e)=>setTitle(e.target.value)} />
+    </div>
+  )
 
   useEffect(() => {
     editorRef.current = {
@@ -24,12 +33,13 @@ function MakePost({ onChange, name, value, sendPost }: Params) {
 
   }, []);
 
-  return (
+  return (<>
+  {isNew ? titleInput : null}
     <div className={classes.makePost}>
       <p className={`${classes.btn} ${classes.pri_btn}`}
         onClick={()=>{toggleEditor(!editor)}}
       >
-        comment on post
+        {isNew ? 'create new post' : 'comment on post'}
       </p>
       {editor ? (
         <div className={`editor_wrapper ${classes.editor_wrapper}`}>
@@ -43,10 +53,11 @@ function MakePost({ onChange, name, value, sendPost }: Params) {
             onChange(data);
           }}
         />
-        <div className={`${classes.sendPost} ${classes.btn} ${classes.pri_btn}`} onClick={()=>sendPost()}>Send Post</div>
+        <button className={`${classes.sendPost} ${classes.btn} ${classes.pri_btn}`} onClick={()=>sendPost()}>Send Post</button>
         </div>
       ) : null}
     </div>
+    </>
   );
 }
 
