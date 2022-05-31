@@ -23,24 +23,24 @@ function Login() {
     fetch("/api/auth/login", {
       method: "POST",
       headers: {
-        'content-type': 'application/json;charset=UTF-8',
-        'accept': 'application/json',
+        "content-type": "application/json;charset=UTF-8",
+        accept: "application/json",
       },
       body: JSON.stringify({
         username: username.value,
         password: password.value,
       }),
-    }).then(async (response)=> {
-
-      if (response.ok) {
-        console.log(response)
-        var res = response.json()
-        return res
-      };
-
-    }).then((data)=>{
-      console.log(data)
-    });
+    })
+      .then(async (response) => {
+        if (response.ok) {
+          console.log(response);
+          var res = response.json();
+          return res;
+        }
+      })
+      .then((data) => {
+        console.log(data);
+      });
   };
 
   return (
@@ -68,7 +68,7 @@ function Login() {
           </div>
           <div className={classes.submit_btn_wrapper}>
             <input
-              onClick={(e) => e.preventDefault}
+              onClick={(e) => formSubmitHandler(e)}
               className={`${classes.btn} ${classes.sec_btn}`}
               type="submit"
               value="LOGIN"

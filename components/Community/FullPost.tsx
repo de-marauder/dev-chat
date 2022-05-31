@@ -1,57 +1,91 @@
-import React, { useState, useEffect } from "react";
+import parse from "html-react-parser";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 
 import classes from "../../styles/Community/FullPost.module.scss";
 import MakePost from "./Posts/Post/makePost";
 
-
 type Props = {
   post: {
+    content: string;
     id: number;
-    userId: number;
     title: string;
-    body: string;
+    author: string;
+    comments: [] | [{ author: string; content: string; created_At: Date}];
+    created_At: Date;
   };
-  dateStr: string;
 };
 
 export default function FullPost(props: Props) {
-
   const [data, setData] = useState("");
-  
-  const handleSendPost = () => {
+
+  const router = useRouter()
+
+  const { data: session } = useSession();
+
+  const handleComment = async () => {
     // hit create post api with post request
-    console.log(data)
-  }
-  
+    console.log(data);
+
+    await fetch(`http://localhost:3000/api/post/${props.post.id}`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        content: data,
+        author: session?.user?.name,
+      }),
+    });
+
+    router.push(`./community/post/${props.post.id}`)
+  };
+
+  const postComments = props.post.comments.length > 0 ? props.post.comments.map((comment: {author: string; content: string; created_At: Date}) => {
+    return (<div className={classes.comment}>
+      <div className={classes.comment__top}>
+        {/* <img src={comment.userImg} alt='user image' /> */}
+        <p>{comment.author}</p>
+        <p>Posted on: <span>{comment.created_At.toString().split('T')[0]}</span></p>
+      </div>
+      <div>
+        {parse(comment.content)}
+      </div>
+    </div>);
+  }) : null;
 
   return (
-    <div className={classes.fullpost}>
-      <section className={classes.post}>
+    <section className={classes.fullpost}>
+      <article className={classes.post}>
         <h2 className={classes.title}>{props.post.title.toUpperCase()}</h2>
         <div className={classes.posted}>
           <p className={classes.author}>
-            User ID: <span>#{props.post.userId}</span>
+            Author: <span>{props.post.author}</span>
           </p>
-          <p className={classes.date}>{`Posted on: ${props.dateStr}`}</p>
+          <p
+            className={classes.date}
+          >{`Posted on: ${props.post.created_At?.toISOString()}`}</p>
         </div>
-        <p className={classes.desc}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-          magnam necessitatibus est ipsam cum illum aut dolor fugit quae?
-          Placeat tenetur quisquam exercitationem sunt odio alias error expedita
-          nesciunt itaque!
-        </p>
-      </section>
-      <section className={classes.make_comment}>
-        <MakePost
-        isNew={false}
-        name="description"
-        onChange={(data: string) => {
-          setData(data);
-        }}
-        sendPost={handleSendPost}
-        value={data}
-      />
-      </section>
-    </div>
+        <div className={classes.desc}>{parse(props.post.content)}</div>
+      </article>
+      {session && (
+        <section className={classes.make_comment}>
+          <MakePost
+            isNew={false}
+            name="description"
+            onChange={(data: string) => {
+              setData(data);
+            }}
+            title={""}
+            setTitle={null}
+            sendPost={handleComment}
+            value={data}
+          />
+        </section>
+      )}
+
+      <section className={classes.comments}>{postComments}</section>
+    </section>
   );
 }

@@ -1,25 +1,17 @@
 import "../styles/globals.scss";
 import type { AppProps } from "next/app";
 import Layout from "../components/layout";
-import { NextComponentType } from "next";
-import { Component } from "react";
+import { SessionProvider } from "next-auth/react";
 
-// type Props = {
-//   children: JSX.Element;
-// };
 
-// type ModAppProps = AppProps & {
-//   Component: NextComponentType & {Layout: (props: Props) => JSX.Element}
-// };
-
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <Layout>
+    <SessionProvider session={session}>
+      <Layout>
         <Component {...pageProps} />
-    </Layout>
+      </Layout>
+    </SessionProvider>
   );
 }
 
 export default MyApp;
-
-// const EmptyLayout = (props: Props) => <>{props.children}</>;

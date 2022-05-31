@@ -1,15 +1,18 @@
+import parse from 'html-react-parser';
+
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 
 import classes from "../../../../styles/Community/Post.module.scss";
 
 type Props = {
   post: {
-    body: string;
+    content: string;
     id: number;
     title: string;
-    userId: number;
+    author: string;
+    created_At: Date;
   };
 };
 
@@ -17,25 +20,22 @@ export default function Post(props: Props) {
   const router = useRouter();
   const date = new Date();
   const dateStr = date.toString().split(" ").slice(0, 4).join(" ");
+
+
   return (
     <Link
-      href={`${router.route}/posts/${props.post.id}-${dateStr
-        .split(" ")
-        .join("_")}`}
+      href={`${router.route}/post/${props.post.id}`}
     >
       <div className={classes.post}>
         <h2 className={classes.title}>{props.post.title}</h2>
-        <p className={classes.desc}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-          magnam necessitatibus est ipsam cum illum aut dolor fugit quae?
-          Placeat tenetur quisquam exercitationem sunt odio alias error expedita
-          nesciunt itaque!
-        </p>
+        <div id="content" className={classes.desc}>
+          {parse(props.post.content)}
+        </div>
         <div className={classes.posted}>
           <p className={classes.author}>
-            User ID: <span>#{props.post.userId}</span>
+            Author: <span>#{props.post.author}</span>
           </p>
-          <p className={classes.date}>{`Posted on: ${dateStr}`}</p>
+          <p className={classes.date}>{`Posted on: ${props.post.created_At}`}</p>
         </div>
       </div>
     </Link>

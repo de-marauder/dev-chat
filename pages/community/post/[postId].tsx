@@ -18,11 +18,12 @@ type NextPostPage<
   P = {
     post: {
       id: number;
-      userId: number;
+      author: string;
       title: string;
       body: string;
+      content: string;
+      created_At: Date;
     };
-    dateStr: string;
   },
   IP = P
 > = NextPage<P, IP>;
@@ -39,7 +40,7 @@ const PostPage: NextPostPage = (props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CommunityLayout>
-        <FullPost dateStr={props.dateStr} post={props.post} />
+        <FullPost post={props.post} />
       </CommunityLayout>
     </>
   );
@@ -53,10 +54,11 @@ import CommunityLayout from "../../../components/Community/CommunityLayout";
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
   // const router = useRouter()
-  const response = await fetch(`https://jsonplaceholder.typicode.com/posts`);
+  console.log("getStatitcPaths initiating...")
+  const response = await fetch(`http://localhost:3000/api/post`);
   // console.log(response);
-  const posts = await response.json();
-  console.log(context);
+  const {posts} = await response.json();
+  console.log("getStaticPaths ==> ", posts);
   const paths = posts.map(
     (
       post: {
@@ -66,42 +68,36 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
     ) => {
       return {
         params: {
-          postId: `${post.id}-${(new Date()).toString().split(' ').slice(0, 4).join('_')}`,
+          postId: `${post.id}`,
         },
       };
     }
   );
-  // console.log("PATHS => postId", paths);
+  console.log("PATHS => postId", paths);
   return {
-    paths: paths.slice(0, 10),
+    paths: paths,
     fallback: false,
   };
 };
 export const getStaticProps: GetStaticProps = async (context) => {
-  //fetch post
-
+  
+  // Define param type
   interface IParams extends ParsedUrlQuery {
-    postId: string;
+    title: string;
   }
-
+  
   const { postId } = context.params as IParams;
-
-  console.log("PROPS => postId", postId);
-
-  const id = postId.split("-")[0];
-
-  console.log("PROPS => id", id);
-
-  const response = await fetch(
-    `https://jsonplaceholder.typicode.com/posts/${id}`
-  );
+  
+  console.log("post page PROPS => title", postId);
+  
+  //fetch posts
+  const response = await fetch(`http://localhost:3000/api/post/${postId}`);
   // console.log(response);
-  const post = await response.json();
-  console.log("post: ", postId);
+  const {post} = await response.json();
+  console.log("post: ", post);
   return {
     props: {
-      post: post,
-      dateStr: postId.split("-")[1].split("_").join(" "),
+      post: post[0]
     },
   };
 };

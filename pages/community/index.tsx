@@ -7,7 +7,6 @@ import CommunityLayout from "../../components/Community/CommunityLayout";
 type NextPageWithSlug<P = { posts: [] }, IP = P> = NextPage<P, IP>;
 
 const CommunityPage: NextPageWithSlug = (props) => {
-
   return (
     <>
       <Head>
@@ -29,12 +28,20 @@ export default CommunityPage;
 
 export async function getStaticProps() {
   // fetch posts and fix as prop
-  const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-  const posts = await response.json();
+  const response = await fetch("http://localhost:3000/api/post", {
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+    },
+  });
+  const {posts} = response.ok ? await response.json() : ["failed"];
+
+  console.log("Community page get static props: ", posts)
+  // console.log('post type: ', typeof(resJson.posts))
 
   return {
     props: {
-      posts: posts.slice(0, 10),
+      posts: posts,
     },
   };
 }

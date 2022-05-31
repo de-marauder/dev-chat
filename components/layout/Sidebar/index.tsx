@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import {useSession, signIn, signOut} from "next-auth/react"
 import classes from "../../../styles/Sidebar.module.scss";
 
 type Props = {
@@ -10,6 +11,8 @@ type Props = {
 
 function Sidebar(props: Props) {
   const router = useRouter();
+
+  const {data: session } = useSession()
 
   // console.log(router);
 
@@ -60,18 +63,22 @@ function Sidebar(props: Props) {
             <Link href="/contacts">Contacts</Link>
           </li>
           <hr />
+          <li id="profile" className={`${classes.nav_item} ${router.route === '/profile' ? classes.active : ''}`}>
+            <Link href="/profile">Profile</Link>
+          </li>
+          <hr />
           <li id="community" className={`${classes.nav_item} ${router.route === '/community' ? classes.active : ''}`}>
             <Link href="/community">Community</Link>
           </li>
         </ul>
 
         <ul className={classes.auth}>
-          <li className={`${classes.pri_btn} ${classes.btn}`}>
-            <Link href="/auth/login">Login</Link>
-          </li>
-          <li className={`${classes.sec_btn} ${classes.btn}`}>
-            <Link href="/auth/signup">Sign up</Link>
-          </li>
+          {session ? <li onClick={()=>signOut()} className={`${classes.pri_btn} ${classes.btn}`}>
+            Sign out
+          </li> :
+          <li onClick={()=>{signIn('google'); console.log("Signing in...")}} className={`${classes.sec_btn} ${classes.btn}`}>
+            Sign In
+          </li>}
         </ul>
       </nav>
     </aside>

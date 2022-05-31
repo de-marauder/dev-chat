@@ -1,10 +1,10 @@
-import { useRouter } from "next/router";
+import { signIn} from "next-auth/react"
+
+
 import classes from "../../../styles/Landing/Hero.module.scss";
 
 
 function Hero() {
-
-  const router = useRouter();
 
   return (
     <section className={classes.Hero}>
@@ -17,7 +17,7 @@ function Hero() {
         <h2>Have a blast</h2>
         <br />
         <button onClick={()=>{
-          router.push('/auth/login')
+          signIn('google')
         }}
         className={`${classes.btn} ${classes.pri_btn} ${classes.hero_btn}`}>Get Started</button>
       </div>

@@ -50,10 +50,40 @@
         }
 
         .auth {
-            @include flex-row;
+            @include flex-center;
 
+            .user_profile {
+                color: $pri-color;
+                margin-right: 1rem;
+                border: 2px $pri-color solid;
+                padding: 3px;
+                border-radius: .5rem;
+                position: relative;
+
+                &:hover {
+                    background-color: $pri-color;
+                    color: white;
+                    
+                    &::after {
+                        content: attr(data-name);
+                        width: max-content;
+                        position: absolute;
+                        top: -100%;
+                        right: 100%;
+                        background-color: $pri-color;
+                        color: white;
+                        border-radius: .5rem;
+                        padding: .5rem;
+                        font-size: .6rem;
+                    }
+                }
+            }
             .sec_btn {
                 color: $sec-text-color-1;
+
+                &:hover {
+                    color: white;
+                }
             }
 
             li {

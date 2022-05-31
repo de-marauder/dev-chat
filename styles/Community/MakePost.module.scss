@@ -23,17 +23,20 @@
 }
 div.titleInput {
     @include flex-col;
+    margin: 1rem;
+
     label {
         color: white;
         font-weight: bold;
     }
     input {
-        margin: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 0;
         background: $sec-color;
         padding: 0.5rem;
         font-weight: bold;
         color: white;
-        width: 90%;
+        width: 100%;
     }
 
 }

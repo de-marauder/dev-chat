@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { Console } from "console";
+
 
 if (process.env.MONGO_URL) {
   mongoose.connect(process.env.MONGO_URL);

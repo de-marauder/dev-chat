@@ -7,21 +7,22 @@ type Params = {
   sendPost: Function;
   value: string;
   name: string;
+  title: string;
+  setTitle: Function | null;
   isNew: Boolean;
 };
 
 // !* Adding a button to toggle the editor fixed the disappearing after page load issue.
-function MakePost({ isNew, onChange, name, value, sendPost }: Params) {
+function MakePost({ isNew, onChange, name, value, title, setTitle, sendPost }: Params) {
   const editorRef = useRef<any>();
   const { CKEditor, ClassicEditor }: any = editorRef.current || {};
 
   const [editor, toggleEditor] = useState(false);
 
-  const [title, setTitle] = useState('')
   const titleInput = (
     <div className={classes.titleInput}>
       <label>Post title</label>
-      <input className={classes.input} required value={title} onChange={(e)=>setTitle(e.target.value)} />
+      <input className={classes.input} required value={title} onChange={(e)=>setTitle && setTitle(e.target.value)} />
     </div>
   )
 
