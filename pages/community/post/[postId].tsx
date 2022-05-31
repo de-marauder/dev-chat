@@ -22,6 +22,7 @@ type NextPostPage<
       title: string;
       body: string;
       content: string;
+      comments: [] | [{ author: string; content: string; created_At: Date; }];
       created_At: Date;
     };
   },
