@@ -43,7 +43,7 @@ function Signup() {
   const footer =
     currRoute === "auth/login" ? (
       <p>
-        Don't have an account?
+        Don&apos;t have an account?
         <span>
           <Link href="/auth/signup">sign up</Link>
         </span>

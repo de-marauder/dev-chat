@@ -5,7 +5,7 @@ type Props = {
     // children: JSX.Element
 }
 
-export default function (props: Props) {
+export default function Backdrop (props: Props) {
   return (
     <div onClick={()=>{props.toggle()}} className='backdrop'></div>
   )

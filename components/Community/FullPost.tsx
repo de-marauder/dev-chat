@@ -42,8 +42,8 @@ export default function FullPost(props: Props) {
     router.push(`./community/post/${props.post.id}`)
   };
 
-  const postComments = props.post.comments.length > 0 ? props.post.comments.map((comment: {author: string; content: string; created_At: Date}) => {
-    return (<div className={classes.comment}>
+  const postComments = props.post.comments.length > 0 ? props.post.comments.map((comment: {author: string; content: string; created_At: Date}, id) => {
+    return (<div key={id} className={classes.comment}>
       <div className={classes.comment__top}>
         {/* <img src={comment.userImg} alt='user image' /> */}
         <p>{comment.author}</p>

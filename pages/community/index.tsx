@@ -36,7 +36,7 @@ export async function getStaticProps() {
   });
   const {posts} = response.ok ? await response.json() : ["failed"];
 
-  console.log("Community page get static props: ", posts)
+  // console.log("Community page get static props: ", posts)
   // console.log('post type: ', typeof(resJson.posts))
 
   return {

@@ -55,11 +55,11 @@ import CommunityLayout from "../../../components/Community/CommunityLayout";
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
   // const router = useRouter()
-  console.log("getStatitcPaths initiating...")
+  // console.log("getStatitcPaths initiating...")
   const response = await fetch(`http://localhost:3000/api/post`);
   // console.log(response);
   const {posts} = await response.json();
-  console.log("getStaticPaths ==> ", posts);
+  // console.log("getStaticPaths ==> ", posts);
   const paths = posts.map(
     (
       post: {
@@ -74,7 +74,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
       };
     }
   );
-  console.log("PATHS => postId", paths);
+  // console.log("PATHS => postId", paths);
   return {
     paths: paths,
     fallback: false,
@@ -89,13 +89,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
   
   const { postId } = context.params as IParams;
   
-  console.log("post page PROPS => title", postId);
+  // console.log("post page PROPS => title", postId);
   
   //fetch posts
   const response = await fetch(`http://localhost:3000/api/post/${postId}`);
   // console.log(response);
   const {post} = await response.json();
-  console.log("post: ", post);
+  // console.log("post: ", post);
   return {
     props: {
       post: post[0]

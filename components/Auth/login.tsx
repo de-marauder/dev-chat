@@ -77,7 +77,7 @@ function Login() {
 
           <div className={classes.form_footer}>
             <p>
-              Don't have an account?{" "}
+              Don&apos;t have an account?
               <span>
                 {currRoute === "login" ? (
                   <Link href="/auth/signup">sign up</Link>
