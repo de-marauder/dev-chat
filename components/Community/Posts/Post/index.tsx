@@ -18,9 +18,6 @@ type Props = {
 
 export default function Post(props: Props) {
   const router = useRouter();
-  const date = new Date();
-  const dateStr = date.toString().split(" ").slice(0, 4).join(" ");
-
 
   return (
     <Link

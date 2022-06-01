@@ -15,12 +15,12 @@ export default async function handler(
   }
 
   const db = mongoose.connection;
-  db.on("error", (error) => {
-    console.log(`Database error ==> ${error}`);
-  });
-  db.once("open", () => {
-    console.log(`Database open.\n Connected to mongoose`);
-  });
+  // db.on("error", (error) => {
+  //   console.log(`Database error ==> ${error}`);
+  // });
+  // db.once("open", () => {
+  //   console.log(`Database open.\n Connected to mongoose`);
+  // });
 
   console.log("post route hit...");
   const postCollection = db.collection("posts");
@@ -28,23 +28,23 @@ export default async function handler(
   //!*** GET METHOD ***!//
   if (req.method === "GET") {
     console.log("Post GET route hit...");
-    console.log("REQ ==> ", req.query);
-
+    // console.log("REQ ==> ", req.query);
+    
     const id = req.query.postId as string;
-
-    console.log("GET route hit!");
+    
     const post = await postCollection.find({ id: parseInt(id) }).toArray();
-
-    console.log(post);
-
+    
+    // console.log(post);
+    
     res.status(200).json({ post: post });
   }
-
+  
   //!*** POST METHOD ***!//
   if (req.method === "POST") {
-
+    console.log("Post POST route hit...");
+    
     const date = new Date()
-    console.log(date.toISOString())
+    // console.log(date.toISOString())
     const comment = {
       content: req.body.content,
       author: req.body.author,
@@ -55,7 +55,7 @@ export default async function handler(
 
     const post = await postCollection.updateOne({id: parseInt(id)}, {$push: {comments: comment}})
 
-    console.log(post);
+    // console.log(post);
     res.json({message: "success"});
   }
 }

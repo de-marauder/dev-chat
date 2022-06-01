@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import axios from 'axios';
 
 import FullPost from "../../../components/Community/FullPost";
 
@@ -52,13 +52,19 @@ export default PostPage;
 import { GetStaticPaths, GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 import CommunityLayout from "../../../components/Community/CommunityLayout";
+import Error from "next/error";
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
   // const router = useRouter()
   // console.log("getStatitcPaths initiating...")
-  const response = await fetch(`http://localhost:3000/api/post`);
+  let response;
+  try {
+    response = await axios.get(`${process.env.SITE_URL}/api/post`);
+  } catch (error) {
+    console.error(error)
+  }
   // console.log(response);
-  const {posts} = await response.json();
+  const posts = response?.statusText === "OK" ? response.data.posts : ["failed"];
   // console.log("getStaticPaths ==> ", posts);
   const paths = posts.map(
     (
@@ -92,9 +98,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
   // console.log("post page PROPS => title", postId);
   
   //fetch posts
-  const response = await fetch(`http://localhost:3000/api/post/${postId}`);
+  let response;
+  try {
+    response = await axios.get(`${process.env.SITE_URL}/api/post/${postId}`);
+  } catch (err) {console.error(err)}
   // console.log(response);
-  const {post} = await response.json();
+  const post = response?.statusText==="OK" ? response.data.post : ["failed"];
   // console.log("post: ", post);
   return {
     props: {

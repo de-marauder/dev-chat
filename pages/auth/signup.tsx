@@ -16,4 +16,4 @@ const signup: NextPage = () => {
   )
 }
 
-export default signup
+export default signup;

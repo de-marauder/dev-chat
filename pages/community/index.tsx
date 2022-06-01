@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import axios from 'axios'
 
 import Community from "../../components/Community";
 import CommunityLayout from "../../components/Community/CommunityLayout";
@@ -28,16 +29,21 @@ export default CommunityPage;
 
 export async function getStaticProps() {
   // fetch posts and fix as prop
-  const response = await fetch("http://localhost:3000/api/post", {
-    method: "GET",
-    headers: {
-      "content-type": "application/json",
-    },
-  });
-  const {posts} = response.ok ? await response.json() : ["failed"];
+  let response;
+  try {
+
+    response = await axios.get(`${process.env.SITE_URL}/api/post`, {
+      // method: "GET",
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+  } catch (err) {console.error(err)};
+  
+  const posts = response?.statusText==='OK' ? response.data.posts : ["failed"];
 
   // console.log("Community page get static props: ", posts)
-  // console.log('post type: ', typeof(resJson.posts))
+  // console.log('post type: ', typeof(posts))
 
   return {
     props: {
