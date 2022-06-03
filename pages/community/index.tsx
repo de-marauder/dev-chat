@@ -32,7 +32,7 @@ export async function getStaticProps() {
   let posts;
   try {
     if (process.env.MONGO_URL) {
-      mongoose.connect(process.env.MONGO_URL);
+      await mongoose.connect(process.env.MONGO_URL);
       console.log("Connected to database")
     } else {
       console.log("Error connecting to database")
