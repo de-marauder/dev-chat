@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   // !*** Initiate MONGODB ***!
   if (process.env.MONGO_URL) {
-    mongoose.connect(process.env.MONGO_URL);
+    await mongoose.connect(process.env.MONGO_URL);
     console.log("connected to database...");
   } else {
     console.log("Couldn't connect to database...");

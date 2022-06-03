@@ -3,18 +3,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-if (process.env.MONGO_URL) {
-  mongoose.connect(process.env.MONGO_URL);
-  console.log("mongoose connected to database");
-} else {
-    console.error({message: "Could not read environment variable [MONGO_URL]"})
-}
-
-const db = mongoose.connection;
-db.on("error", (error) => console.error(error));
-db.once("open", () => console.log("Connected to Mongoose"));
-4;
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -22,9 +10,18 @@ export default async function handler(
   console.log("route hit");
   console.log(req.method);
 
-  if (req.method === "POST") {
-    // console.log(req.body);
+  if (process.env.MONGO_URL) {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log("mongoose connected to database");
+  } else {
+    console.error({
+      message: "Could not read environment variable [MONGO_URL]",
+    });
+  }
 
+  const db = mongoose.connection;
+
+  if (req.method === "POST") {
     const data = req.body;
     console.log(data);
 
@@ -40,7 +37,6 @@ export default async function handler(
         if (match) {
           res.send({ message: "User identified and authenticated" });
           console.log("response written");
-          // res.redirect(200, "/");
           res.end();
         }
       } else {
@@ -52,8 +48,6 @@ export default async function handler(
     } catch (error: any) {
       console.error(`ERROR!!! ${error.stack}`);
     }
-
-    // res.status(200).json(data);
   } else {
     const data = {
       error: "Some error occured",

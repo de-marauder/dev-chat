@@ -2,16 +2,14 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import mongoose from "mongoose";
 const User = require("../model/User");
-// import EmailProvider from 'next-auth/providers/email'
 
 
-const secret = process.env.NEXTAUTH_SECRET;
+// const secret = process.env.NEXTAUTH_SECRET;
 
 
 export default NextAuth({
   providers: [
     // OAuth authentication providers...
-
     GoogleProvider({
       clientId: process.env.GOOGLE_ID ? process.env.GOOGLE_ID : "",
       clientSecret: process.env.GOOGLE_SECRET ? process.env.GOOGLE_SECRET : "",
@@ -44,21 +42,4 @@ export default NextAuth({
       return true; // Do different verification for other providers that don't have `email_verified`
     },
   },
-  // jwt: {
-  //   async encode(params: {
-  //     token: JWT
-  //     secret: string
-  //     maxAge: number
-  //   }): Promise<string> {
-  //     // return a custom encoded JWT string
-  //     return secret ? secret : ''
-  //   },
-  //   async decode(params: {
-  //     token: string
-  //     secret: string
-  //   }): Promise<JWT | null> {
-  //     // return a `JWT` object, or `null` if decoding failed
-  //     return {}
-  //   },
-  // }
 });

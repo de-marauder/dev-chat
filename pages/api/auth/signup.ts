@@ -4,27 +4,24 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 
-if (process.env.MONGO_URL) {
-  mongoose.connect(process.env.MONGO_URL);
-  console.log("mongoose connected to database");
-} else {
-  console.error({ message: "Could not read environment variable [MONGO_URL]" });
-}
-
-const db = mongoose.connection;
-db.on("error", (error) => console.error(error));
-db.once("open", () => console.log("Connected to Mongoose"));
-4;
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
-) {
-  console.log("route hit");
-  console.log(req.method);
+  ) {
+    console.log("route hit");
+    console.log(req.method);
+    
+    if (process.env.MONGO_URL) {
+      mongoose.connect(process.env.MONGO_URL);
+      console.log("mongoose connected to database");
+    } else {
+      console.error({ message: "Could not read environment variable [MONGO_URL]" });
+    }
+    
+    const db = mongoose.connection;
 
   if (req.method === "POST") {
-    // console.log(req.body);
     const { username, password1, password2 } = req.body;
     console.log("signup route hit");
 
