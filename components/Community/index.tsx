@@ -42,7 +42,7 @@ function Community(props: Props) {
     const resJson = response.ok && await response.json()
 
     console.log("submit post complete: ", resJson)
-    Router.push(`/community/post/${props.posts.length+1}`)
+    Router.push(`/community/post/${props.posts.length}`)
   };
 
 

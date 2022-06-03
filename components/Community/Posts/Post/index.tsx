@@ -32,7 +32,7 @@ export default function Post(props: Props) {
           <p className={classes.author}>
             Author: <span>#{props.post.author}</span>
           </p>
-          <p className={classes.date}>{`Posted on: ${props.post.created_At}`}</p>
+          <p className={classes.date}>{`Posted on: ${props.post.created_At.toString().split('T')[0]}`}</p>
         </div>
       </div>
     </Link>

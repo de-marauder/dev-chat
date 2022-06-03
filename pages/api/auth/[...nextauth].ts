@@ -4,6 +4,10 @@ import mongoose from "mongoose";
 const User = require("../model/User");
 // import EmailProvider from 'next-auth/providers/email'
 
+
+const secret = process.env.NEXTAUTH_SECRET;
+
+
 export default NextAuth({
   providers: [
     // OAuth authentication providers...
@@ -19,25 +23,11 @@ export default NextAuth({
         },
       },
     }),
-    // Passwordless / email sign in
-    // EmailProvider({
-    //   server: process.env.MAIL_SERVER,
-    //   from: 'NextAuth.js <no-reply@example.com>'
-    // }),
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
       mongoose.connect(process.env.MONGO_URL ? process.env.MONGO_URL : "");
       const db = mongoose.connection;
-
-      db.on("error", (error) => {
-        console.log(
-          `An error has occured trying to connect to Database. \n${error}`
-        );
-      });
-      db.once("open", () => {
-        console.log("Connected to database");
-      });
 
       const usersCollection = db.collection("users");
 
@@ -51,12 +41,24 @@ export default NextAuth({
         console.log("user already exists in DB");
       }
 
-    //   console.log("userDoc => ", userDoc);
-
-    //   console.log("profile ==> ", profile);
-    //   console.log("account ==> ", account);
-    //   console.log("user ==> ", user);
       return true; // Do different verification for other providers that don't have `email_verified`
     },
   },
+  // jwt: {
+  //   async encode(params: {
+  //     token: JWT
+  //     secret: string
+  //     maxAge: number
+  //   }): Promise<string> {
+  //     // return a custom encoded JWT string
+  //     return secret ? secret : ''
+  //   },
+  //   async decode(params: {
+  //     token: string
+  //     secret: string
+  //   }): Promise<JWT | null> {
+  //     // return a `JWT` object, or `null` if decoding failed
+  //     return {}
+  //   },
+  // }
 });

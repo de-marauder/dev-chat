@@ -33,14 +33,20 @@ export async function getStaticProps() {
   try {
 
     response = await axios.get(`${process.env.SITE_URL}/api/post`, {
-      // method: "GET",
       headers: {
         "content-type": "application/json",
       },
     });
+    // response = await fetch(`${process.env.SITE_URL}/api/post`, {
+    //   method: "GET",
+    //   headers: {
+    //     "content-type": "application/json",
+    //   },
+    // });
   } catch (err) {console.error(err)};
   
   const posts = response?.statusText==='OK' ? response.data.posts : ["failed"];
+  // const {posts} = response?.ok ? await response.json() : ["failed"];
 
   // console.log("Community page get static props: ", posts)
   // console.log('post type: ', typeof(posts))
@@ -48,6 +54,7 @@ export async function getStaticProps() {
   return {
     props: {
       posts: posts,
+      // posts: [],
     },
   };
 }

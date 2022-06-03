@@ -15,12 +15,6 @@ export default async function handler(
   }
 
   const db = mongoose.connection;
-  // db.on("error", (error) => {
-  //   console.log(`Database error ==> ${error}`);
-  // });
-  // db.once("open", () => {
-  //   console.log(`Database open.\n Connected to mongoose`);
-  // });
 
   console.log("post route hit...");
   const postCollection = db.collection("posts");

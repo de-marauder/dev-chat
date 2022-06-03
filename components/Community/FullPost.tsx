@@ -39,7 +39,7 @@ export default function FullPost(props: Props) {
       }),
     });
 
-    router.push(`./community/post/${props.post.id}`)
+    router.push(`/community/post/${props.post.id}`)
   };
 
   const postComments = props.post.comments.length > 0 ? props.post.comments.map((comment: {author: string; content: string; created_At: Date}, id) => {
@@ -65,7 +65,7 @@ export default function FullPost(props: Props) {
           </p>
           <p
             className={classes.date}
-          >{`Posted on: ${props.post.created_At?.toISOString()}`}</p>
+          >{`Posted on: ${props.post.created_At.toString()}`}</p>
         </div>
         <div className={classes.desc}>{parse(props.post.content)}</div>
       </article>

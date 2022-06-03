@@ -54,7 +54,8 @@ import { ParsedUrlQuery } from "querystring";
 import CommunityLayout from "../../../components/Community/CommunityLayout";
 import Error from "next/error";
 
-export const getStaticPaths: GetStaticPaths = async (context) => {
+// export const getStaticPaths: GetStaticPaths = async (context) => {
+export const getStaticPaths = async () => {
   // const router = useRouter()
   // console.log("getStatitcPaths initiating...")
   let response;

@@ -32,7 +32,7 @@ export default async function handler(
     console.log("posts GET route hit!")
     const posts = await postCollection.find().toArray()
 
-    // console.log(posts)
+    // console.log("posts GET route: ", posts)
 
     res.status(200).json({posts: posts})
   }
