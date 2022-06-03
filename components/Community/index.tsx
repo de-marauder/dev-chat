@@ -13,6 +13,7 @@ type Props = {
 };
 
 function Community(props: Props) {
+
   const [showCreatePost, toggleCreatePost] = useState(false);
   const [data, setData] = useState("");
   const [title, setTitle] = useState('')

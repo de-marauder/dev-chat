@@ -65,7 +65,7 @@ export default function FullPost(props: Props) {
           </p>
           <p
             className={classes.date}
-          >{`Posted on: ${props.post.created_At.toString()}`}</p>
+          >{`Posted on: ${props.post.created_At.toString().split('T')[0]}`}</p>
         </div>
         <div className={classes.desc}>{parse(props.post.content)}</div>
       </article>

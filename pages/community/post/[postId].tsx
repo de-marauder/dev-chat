@@ -1,35 +1,17 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import axios from 'axios';
 
 import FullPost from "../../../components/Community/FullPost";
 
-// type Props = {
-//   post: {
-//     id: number;
-//     userId: number;
-//     title: string;
-//     body: string;
-//   };
-//   children: JSX.Element;
-// };
-
 type NextPostPage<
   P = {
-    post: {
-      id: number;
-      author: string;
-      title: string;
-      body: string;
-      content: string;
-      comments: [] | [{ author: string; content: string; created_At: Date; }];
-      created_At: Date;
-    };
+    post: string
   },
   IP = P
 > = NextPage<P, IP>;
 
-const PostPage: NextPostPage = (props) => {
+const PostPage: NextPostPage = ({post}) => {
+
   return (
     <>
       <Head>
@@ -41,7 +23,7 @@ const PostPage: NextPostPage = (props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CommunityLayout>
-        <FullPost post={props.post} />
+        <FullPost post={JSON.parse(post)} />
       </CommunityLayout>
     </>
   );
@@ -49,39 +31,37 @@ const PostPage: NextPostPage = (props) => {
 
 export default PostPage;
 
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 import CommunityLayout from "../../../components/Community/CommunityLayout";
-import Error from "next/error";
+import mongoose from "mongoose";
 
-// export const getStaticPaths: GetStaticPaths = async (context) => {
 export const getStaticPaths = async () => {
-  // const router = useRouter()
-  // console.log("getStatitcPaths initiating...")
-  let response;
+  let posts;
   try {
-    response = await axios.get(`${process.env.SITE_URL}/api/post`);
-  } catch (error) {
-    console.error(error)
-  }
-  // console.log(response);
-  const posts = response?.statusText === "OK" ? response.data.posts : ["failed"];
-  // console.log("getStaticPaths ==> ", posts);
-  const paths = posts.map(
-    (
-      post: {
-        id: number;
-      },
-      id: number
-    ) => {
-      return {
-        params: {
-          postId: `${post.id}`,
-        },
-      };
+    if (process.env.MONGO_URL) {
+      await mongoose.connect(process.env.MONGO_URL);
+      console.log("Connected to database");
+    } else {
+      console.log("Error connecting to database. URL invalid");
     }
-  );
-  // console.log("PATHS => postId", paths);
+
+    const db = mongoose.connection;
+
+    const postsCollection = db.collection('posts');
+    posts = await postsCollection.find().toArray()
+  } catch (error) {
+    console.error(error);
+  }
+  
+  const paths = posts?.map((post) => {
+    return {
+      params: {
+        postId: `${post.id}`,
+      },
+    };
+  });
+
   return {
     paths: paths,
     fallback: false,
@@ -91,24 +71,33 @@ export const getStaticProps: GetStaticProps = async (context) => {
   
   // Define param type
   interface IParams extends ParsedUrlQuery {
-    title: string;
+    postId: string;
   }
-  
+
   const { postId } = context.params as IParams;
-  
-  // console.log("post page PROPS => title", postId);
-  
+
   //fetch posts
-  let response;
+  let post: {} = {};
   try {
-    response = await axios.get(`${process.env.SITE_URL}/api/post/${postId}`);
-  } catch (err) {console.error(err)}
-  // console.log(response);
-  const post = response?.statusText==="OK" ? response.data.post : ["failed"];
-  // console.log("post: ", post);
+    if (process.env.MONGO_URL) {
+      await mongoose.connect(process.env.MONGO_URL);
+      console.log("Connected to database");
+    } else {
+      console.log("Error connecting to database. URL invalid");
+    }
+
+    const db = mongoose.connection;
+    const postsCollection = db.collection("posts");
+
+    const postList = await postsCollection.find({id: parseInt(postId)}).toArray();
+    post = postList[0];
+  } catch (error) {
+    console.error(error);
+  }
+
   return {
     props: {
-      post: post[0]
+      post: JSON.stringify(post),
     },
   };
 };

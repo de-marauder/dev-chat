@@ -16,7 +16,6 @@
     "@fortawesome/react-fontawesome": "^0.1.18",
     "@types/bcrypt": "^5.0.0",
     "@types/ckeditor__ckeditor5-core": "^33.0.3",
-    "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "html-react-parser": "^1.4.14",
     "mongoose": "^6.3.4",

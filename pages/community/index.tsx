@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import axios from 'axios'
 
 import Community from "../../components/Community";
 import CommunityLayout from "../../components/Community/CommunityLayout";
+import mongoose from "mongoose";
 
-type NextPageWithSlug<P = { posts: [] }, IP = P> = NextPage<P, IP>;
+type NextPageWithSlug<P = { posts: string }, IP = P> = NextPage<P, IP>;
 
 const CommunityPage: NextPageWithSlug = (props) => {
   return (
@@ -19,7 +19,7 @@ const CommunityPage: NextPageWithSlug = (props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CommunityLayout>
-        <Community {...props} />
+        <Community posts = {JSON.parse(props.posts)} />
       </CommunityLayout>
     </>
   );
@@ -28,33 +28,26 @@ const CommunityPage: NextPageWithSlug = (props) => {
 export default CommunityPage;
 
 export async function getStaticProps() {
-  // fetch posts and fix as prop
-  let response;
-  try {
-
-    response = await axios.get(`${process.env.SITE_URL}/api/post`, {
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-    // response = await fetch(`${process.env.SITE_URL}/api/post`, {
-    //   method: "GET",
-    //   headers: {
-    //     "content-type": "application/json",
-    //   },
-    // });
-  } catch (err) {console.error(err)};
   
-  const posts = response?.statusText==='OK' ? response.data.posts : ["failed"];
-  // const {posts} = response?.ok ? await response.json() : ["failed"];
+  let posts;
+  try {
+    if (process.env.MONGO_URL) {
+      mongoose.connect(process.env.MONGO_URL);
+      console.log("Connected to database")
+    } else {
+      console.log("Error connecting to database")
+    }
 
-  // console.log("Community page get static props: ", posts)
-  // console.log('post type: ', typeof(posts))
+    const db = mongoose.connection;
+
+    const postsCollection = db.collection('posts');
+    posts = await postsCollection.find().toArray()
+
+  } catch (err) {console.error(err)};
 
   return {
     props: {
-      posts: posts,
-      // posts: [],
+      posts: JSON.stringify(posts),
     },
   };
 }
