@@ -16,7 +16,7 @@ export default function Chat({ contact, chats }: { contact: { image: string, nam
   const inputRef = useRef<HTMLInputElement | null>(null);
   useEffect((): any => {
     // connect to socket server
-    const socket = io("http://localhost:3000", {
+    const socket = io(process.env.NEXTAUTH_URL ? process.env.NEXTAUTH_URL : '', {
       path: '/api/socket'
     });
 
