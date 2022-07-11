@@ -85,11 +85,13 @@ a {
 .modal {
   width: 90%;
   max-width: 800px;
-  // margin: 0 auto;
   min-height: 50vh;
+  max-height: 80vh;
   background: rgba($sec-color, 0.9);
   border-radius: 1rem;
   padding: 1rem;
   z-index: 7;
   position: fixed;
+  top: 5rem;
+  overflow: auto;
 }

@@ -27,9 +27,12 @@ const CommunityPage: NextPageWithSlug = (props) => {
 
 export default CommunityPage;
 
+
+import { WithId } from "mongodb";
+
 export async function getStaticProps() {
   
-  let posts;
+  let posts: WithId<mongoose.AnyObject>[] | [] = [];
   try {
     if (process.env.MONGO_URL) {
       await mongoose.connect(process.env.MONGO_URL);

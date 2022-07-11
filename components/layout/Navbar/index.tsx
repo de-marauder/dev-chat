@@ -64,7 +64,9 @@ function Navbar(props: Props) {
         <ul className={classes.auth}>
           {session ? (
             <>
-                <li data-name={name}  className={`${classes.user_profile} ${router.route === '/profile' ? classes.active : ''}`}><Link href='/profile'><FontAwesomeIcon icon={faUserLarge} /></Link></li>
+                <li data-name={name}  className={`${classes.user_profile} ${router.route === '/profile' ? classes.active : ''}`}><Link href='/profile'>
+                  <img width='20px' height='20px' src={session?.user?.image ? session?.user?.image : ""} alt='profile pic' />
+                  </Link></li>
               <li
                 className={`${classes.pri_btn} ${classes.btn}`}
                 onClick={() => signOut()}

@@ -24,20 +24,38 @@ export default NextAuth({
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      await mongoose.connect(process.env.MONGO_URL ? process.env.MONGO_URL : "");
-      const db = mongoose.connection;
-
-      const usersCollection = db.collection("users");
-
-      const userDoc = await usersCollection.find(user).toArray();
+      try {
+        await mongoose.connect(process.env.MONGO_URL ? process.env.MONGO_URL : "");
+        console.log("mongo connected...")
+      } catch (error) {
+        console.log("Problem connecting to database");
+        console.error(error);
+      }
+      let userDoc: object[] = [];
+      let usersCollection: mongoose.Collection<mongoose.AnyObject> | undefined = undefined;
+      
+      try {  
+        const db = mongoose.connection;
+        usersCollection = db.collection("users");
+        
+        userDoc = await usersCollection.find({email: user.email}).toArray();        
+      } catch (error) {
+        console.log("Problem reading database");
+        console.error(error);
+      }
 
       if (userDoc.length === 0) {
-          const newUser = new User(user)
-        await usersCollection.insertOne(newUser);
-        console.log("New user added to DB");
-      } else {
-        console.log("user already exists in DB");
-      }
+        console.log("user does not exist")
+        const newUser = new User(user)
+        try {
+          await usersCollection?.insertOne(newUser);
+          // console.log("New user added to DB");
+        } catch (e) {
+          console.error(e);
+        }
+      } //else {
+      //   console.log("user already exists in DB");
+      // }
 
       return true; // Do different verification for other providers that don't have `email_verified`
     },

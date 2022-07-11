@@ -26,7 +26,6 @@ export default function FullPost(props: Props) {
 
   const handleComment = async () => {
     // hit create post api with post request
-    console.log(data);
 
     await fetch(`http://localhost:3000/api/post/${props.post.id}`, {
       method: "POST",
